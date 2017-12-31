@@ -72,6 +72,7 @@ def post_message(event):
         term = term.rstrip('in')
         term = term.rstrip('to')
         channel = event['request']['intent']['slots']['channel']['value']
+        channel = channel.replace(' ', '').lower()
         token = event['session']['user']['accessToken']
         logger.info('term: {}'.format(term))
         logger.info('channel: {}'.format(channel))
