@@ -74,8 +74,8 @@ def post_message(event):
         token = event['session']['user']['accessToken']
         logger.info('term: {}'.format(term))
         logger.info('channel: {}'.format(channel))
-        logger.info('token: {}'.format(token))
-        send_slack_msg(term, channel, token)
+        s = send_slack_msg(term, channel, token)
+        logger.info(s)
         msg = 'Your message has been sent to channel {}.'.format(channel)
         return ez_alexa(msg, 'Success')
 
