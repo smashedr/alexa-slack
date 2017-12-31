@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "PostMessage",
+      "slots": [
+        {
+          "name": "term",
+          "type": "LITERAL"
+        }
+      ]
+    }
+  ]
+}
