@@ -1,4 +1,4 @@
-PostMessage to post {slot value|term} to channel {slot value|term}
-PostMessage to post {slot value|term} in channel {slot value|term}
-PostMessage to say {slot value|term} to channel {slot value|term}
-PostMessage to say {slot value|term} in channel {slot value|term}
+PostMessage to post {slot value|term} to channel {slot value|channel}
+PostMessage to post {slot value|term} in channel {slot value|channel}
+PostMessage to say {slot value|term} to channel {slot value|channel}
+PostMessage to say {slot value|term} in channel {slot value|channel}

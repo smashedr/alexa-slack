@@ -6,6 +6,10 @@
         {
           "name": "term",
           "type": "LITERAL"
+        },
+        {
+          "name": "channel",
+          "type": "LITERAL"
         }
       ]
     }

@@ -52,15 +52,33 @@ def ez_alexa(msg, title):
     return alexa
 
 
-def coin_status(event):
+def send_slack_msg(msg, channel, token):
+    url = 'https://slack.com/api/chat.postMessage'
+    data = {
+        'token': token,
+        'channel': channel,
+        'text': msg,
+        'as_user': True,
+    }
+    r = requests.post(url, data)
+    return r
+
+
+def post_message(event):
     try:
-        value = event['request']['intent']['slots']['currency']['value']
-        value = value.lower().replace('define', '').strip()
-        value = value.lower().replace('lookup', '').strip()
-        value = value.lower().replace('look up', '').strip()
-        value = value.lower().replace('search', '').strip()
-        value = value.lower().replace('find', '').strip()
-        logger.info('value: {}'.format(value))
+        term = event['request']['intent']['slots']['term']['value'].strip()
+        term = term.lstrip('say')
+        term = term.lstrip('post')
+        term = term.rstrip('in')
+        term = term.rstrip('to')
+        channel = event['request']['intent']['slots']['channel']['value']
+        token = event['session']['user']['accessToken']
+        logger.info('term: {}'.format(term))
+        logger.info('channel: {}'.format(channel))
+        logger.info('token: {}'.format(token))
+        send_slack_msg(term, channel, token)
+        msg = 'Your message has been sent to channel {}.'.format(channel)
+        return ez_alexa(msg, 'Success')
 
     except Exception as error:
         logger.exception(error)
@@ -72,9 +90,7 @@ def lambda_handler(event, context):
     try:
         intent = event['request']['intent']['name']
         if intent == 'PostMessage':
-            return ez_alexa('I am working.', 'Test')
-        elif intent == 'CoinStatus':
-            return coin_status(event)
+            return post_message(event)
         else:
             raise ValueError('Unknown Intent')
     except Exception as error:
