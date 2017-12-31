@@ -7,8 +7,8 @@ This skill lets you send Slack messages with Alexa.
 ## Phrases
 
 - Alexa, ask Slack to post a test message to channel general
-- Alexa, ask Slack to post a test message to channel general
-- Alexa, ask Slack to post a test message to channel general
+- Alexa, ask Slack to say this is a test in channel testing
+- Alexa, ask Slack to send very secret text to channel private
 
 # Skill Information
 
@@ -16,7 +16,7 @@ Information used when submitting the Skill.
 
 ## Testing Instructions
 
-Connect your Slack account ask ask Alexa to post a message to a channel.
+Connect your Slack account ask ask Alexa to ask Slack to post a message to a channel.
 
 ## Short Skill Description
 

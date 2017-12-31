@@ -68,6 +68,7 @@ def post_message(event):
         term = event['request']['intent']['slots']['term']['value'].strip()
         term = term.lstrip('say')
         term = term.lstrip('post')
+        term = term.lstrip('send')
         term = term.rstrip('in')
         term = term.rstrip('to')
         channel = event['request']['intent']['slots']['channel']['value']
