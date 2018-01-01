@@ -1,5 +1,6 @@
-import requests
+import json
 import logging
+import requests
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -60,7 +61,7 @@ def send_slack_msg(msg, channel, token):
         'as_user': True,
     }
     r = requests.post(url, data)
-    return r
+    return r.json()
 
 
 def post_message(event):
@@ -71,15 +72,28 @@ def post_message(event):
         term = term.lstrip('send')
         term = term.rstrip('in')
         term = term.rstrip('to')
-        channel = event['request']['intent']['slots']['channel']['value']
-        channel = channel.replace(' ', '').lower()
+        channel_raw = event['request']['intent']['slots']['channel']['value']
+        logger.info('raw channel: {}'.format(channel_raw))
+        channel = channel_raw.lower()
+        channel = channel.replace('iapps', 'itops')
+        channel = channel.replace('dash', '-')
+        channel = channel.replace('.', '')
+        channel = channel.replace(' ', '')
         token = event['session']['user']['accessToken']
         logger.info('term: {}'.format(term))
         logger.info('channel: {}'.format(channel))
         s = send_slack_msg(term, channel, token)
         logger.info(s)
-        msg = 'Your message has been sent to channel {}.'.format(channel)
-        return ez_alexa(msg, 'Success')
+        if s['ok']:
+            msg = 'Your message has been sent to channel {}.'.format(channel)
+            return ez_alexa(msg, 'Success')
+        elif s['error'] == 'channel_not_found':
+            msg = 'Unable to locate channel: {}'.format(channel_raw)
+            return ez_alexa(msg, 'Error')
+        else:
+            error = s['error'].replace('_', ' ')
+            msg = 'Error. {}.'.format(error)
+            return ez_alexa(msg, 'Error')
 
     except Exception as error:
         logger.exception(error)
